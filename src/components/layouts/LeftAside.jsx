@@ -64,10 +64,10 @@ const LeftAside = () => {
                     navigate(link.route);
                   }}
                   key={link.label}
-                  className="flex p-4 cursor-pointer rounded-full w-full items-center gap-3 hover:bg-gray-800 "
+                  className="flex p-4 cursor-pointer rounded-full w-40 items-center gap-3 hover:bg-zinc-800 "
                 >
                   <img src={link.imgURL} />
-                  <p className="max-lg:hidden">{link.label}</p>
+                  <p className="max-md:hidden">{link.label}</p>
                 </div>
               );
             })}
