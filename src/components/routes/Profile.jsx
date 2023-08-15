@@ -1,23 +1,92 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { auth } from "../../firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [userdeets, setUserdeets] = useState({});
+  const [Username, setUsername] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [myPosts, setMyPosts] = useState([]);
+
+  const usernameChangeHandler = async () => {
+    await updateProfile(auth?.currentUser, {
+      displayName: Username,
+    });
+    toast("Profile Updated", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
+  };
+
+  const gettingPosts = async () => {
+    const postsRef = collection(db, "posts");
+    try {
+      const myPostListFetching = [];
+      const snapshot = await getDocs(postsRef);
+      snapshot.forEach((eachPost) => {
+        myPostListFetching.push({
+          ...eachPost.data(),
+          id: eachPost.id,
+        });
+      });
+      setMyPosts(myPostListFetching);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         navigate("/login");
       } else {
-        setUserdeets(user);
-        console.log(userdeets);
+        setUsername(user.displayName);
+        const run = async () => {
+          await gettingPosts();
+        };
+        run().catch((err) => console.log(err));
+        setLoading(false);
       }
     });
-  }, [userdeets]);
-  return <div>Profile</div>;
+  }, []);
+  if (loading) {
+    return (
+      <div className="h-96 w-full flex justify-center items-center">
+        Loading...
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-5 py-2 border w-full h-full">
+      <h2 className="text-4xl">Profile</h2>
+      <input
+        type="text"
+        placeholder="Username"
+        className="bg-zinc-800 outline-none rounded-md px-2 py-1 mt-3 w-full h-10 placeholder:text-white placeholder:text-md"
+        onChange={(e) => setUsername(e.target.value)}
+        value={Username}
+      />
+      <button
+        className="bg-white text-black rounded-md px-3 py-2 mt-2 text-lg mx-auto"
+        onClick={usernameChangeHandler}
+      >
+        Update Username
+      </button>
+      <hr className="mt-3" />
+      <div>
+        {myPosts.map((eachPost) => (
+          <p>{eachPost.tweedle}</p>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Profile;

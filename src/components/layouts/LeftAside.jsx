@@ -55,7 +55,10 @@ const LeftAside = () => {
     visible && (
       <div>
         <section className=" sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-start gap-3 overflow-auto border-r px-10 pb-5 pt-28 max-md:hidden">
-          <img src={logo} className="w-12 mx-5 " />
+          <div className="flex items-center gap-2">
+            <img src={logo} className="w-12 ml-5 " />
+            <h2 className="text-3xl">Tweedle</h2>
+          </div>
           <div className="px-3 text-xl">
             {sidebarLinks.map((link) => {
               return (
