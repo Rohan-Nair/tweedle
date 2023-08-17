@@ -18,16 +18,17 @@ const NewPost = () => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         navigate("/login");
+      } else {
+        setPost({ ...post, name: auth?.currentUser?.displayName });
       }
     });
   }, []);
 
   const handleCreateNewPost = async (e) => {
     e.preventDefault();
-    setPost({ ...post, name: auth?.currentUser?.displayName });
     // currently fixing
 
-    if (post.name === "") {
+    if (post.name === null) {
       toast("Create a Username first");
       navigate("/profile");
     } else {
@@ -44,6 +45,13 @@ const NewPost = () => {
           ),
           post
         );
+        toast("Posted", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
       } catch (err) {
         console.log(err);
       }
@@ -67,6 +75,7 @@ const NewPost = () => {
           placeholder="Whats on your mind?"
           value={post.tweedle}
           onChange={(e) => setPost({ ...post, tweedle: e.target.value })}
+          required
         />
         <textarea
           className="bg-zinc-800 outline-none rounded-md px-2 py-1 w-full h-10 placeholder:text-white placeholder:text-md"
@@ -74,6 +83,7 @@ const NewPost = () => {
           placeholder="#Tags Here"
           value={post.tags}
           onChange={(e) => setPost({ ...post, tags: e.target.value })}
+          required
         />
         <button
           onClick={handleCreateNewPost}

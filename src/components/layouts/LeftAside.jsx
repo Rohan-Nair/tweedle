@@ -82,7 +82,7 @@ const LeftAside = () => {
             </button>
           </div>
         </section>
-        <section className="md:hidden fixed bottom-0 border-t">
+        <section className="md:hidden fixed bottom-0 border-t bg-black">
           <div className="px-3 flex w-screen justify-evenly">
             {sidebarLinks.map((link) => {
               return (

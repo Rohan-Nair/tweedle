@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
+import FeedCard from "../layouts/FeedCard";
 
 const Feed = () => {
   const [postList, setPostList] = useState([]);
@@ -28,12 +29,28 @@ const Feed = () => {
     };
     run().catch((err) => console.log(err));
   }, []);
+  if (postList.length === 0) {
+    return (
+      <div className="h-96 w-full flex justify-center items-center">
+        Loading...
+      </div>
+    );
+  }
   return (
-    <div>
-      Feed
-      {postList.map((eachPost) => (
-        <p key={eachPost.id}>{eachPost.tweedle}</p>
-      ))}
+    <div className="px-5 mb-10 md:mb-0 w-full h-[46rem] overflow-scroll">
+      <h2 className="text-2xl py-2 bg-black rounded-sm w-full sticky -top-0">
+        Feed
+      </h2>
+      <div>
+        {postList.map((eachPost) => (
+          <FeedCard
+            key={eachPost.id}
+            username={eachPost.name}
+            tweedle={eachPost.tweedle}
+            likes={eachPost.likes}
+          />
+        ))}
+      </div>
     </div>
   );
 };
