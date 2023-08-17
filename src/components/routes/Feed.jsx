@@ -39,7 +39,7 @@ const Feed = () => {
   return (
     <div className="px-5 mb-10 md:mb-0 w-full h-[46rem] overflow-scroll">
       <h2 className="text-2xl py-2 bg-black rounded-sm w-full sticky -top-0">
-        Feed
+        Home
       </h2>
       <div>
         {postList.map((eachPost) => (
@@ -48,6 +48,7 @@ const Feed = () => {
             username={eachPost.name}
             tweedle={eachPost.tweedle}
             likes={eachPost.likes}
+            tags={eachPost.tags}
           />
         ))}
       </div>

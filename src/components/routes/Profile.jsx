@@ -3,7 +3,13 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { auth, db } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import FeedCard from "../layouts/FeedCard";
 
 const Profile = () => {
@@ -12,10 +18,28 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [myPosts, setMyPosts] = useState([]);
 
-  const usernameChangeHandler = async () => {
+  const usernameChangeHandler = async (e) => {
+    e.preventDefault();
     await updateProfile(auth?.currentUser, {
       displayName: Username,
     });
+    try {
+      const postsRef = collection(db, "posts");
+      const snapshot = await getDocs(postsRef);
+      snapshot.forEach(async (eachPost) => {
+        if (eachPost.id.startsWith(auth.currentUser?.uid)) {
+          await updateDoc(doc(db, "posts", eachPost.id), {
+            name: `${Username}`,
+          });
+        }
+      });
+      const run = async () => {
+        await gettingPosts();
+      };
+      run().catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
     toast("Profile Updated", {
       style: {
         borderRadius: "10px",
@@ -70,19 +94,21 @@ const Profile = () => {
     <div className="px-5 border mb-10 md:mb-0 w-full h-[46rem] overflow-scroll">
       <div className="bg-black rounded-sm w-full sticky -top-0">
         <h2 className="text-4xl ">Profile</h2>
-        <input
-          type="text"
-          placeholder="Username"
-          className="bg-zinc-800 outline-none rounded-md px-2 py-1 mt-3 w-full h-10 placeholder:text-white placeholder:text-md"
-          onChange={(e) => setUsername(e.target.value)}
-          value={Username}
-        />
-        <button
-          className="bg-white text-black rounded-md px-3 py-2 mt-2 text-lg mx-auto"
-          onClick={usernameChangeHandler}
-        >
-          Update Username
-        </button>
+        <form onSubmit={usernameChangeHandler}>
+          <input
+            type="text"
+            placeholder="Username"
+            className="bg-zinc-800 outline-none rounded-md px-2 py-1 mt-3 w-full h-10 placeholder:text-white placeholder:text-md"
+            onChange={(e) => setUsername(e.target.value)}
+            value={Username}
+          />
+          <button
+            className="bg-white text-black rounded-md px-3 py-2 mt-2 text-lg mx-auto"
+            onClick={usernameChangeHandler}
+          >
+            Update Username
+          </button>
+        </form>
         <hr className="mt-3" />
       </div>
       <div>

@@ -5,6 +5,7 @@ import FeedCard from "../layouts/FeedCard";
 
 const Search = () => {
   const [postList, setPostList] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   const gettingPosts = async () => {
     const postsRef = collection(db, "posts");
@@ -43,18 +44,39 @@ const Search = () => {
         <input
           type="text"
           className="bg-zinc-800 outline-none rounded-md px-2 py-1 mt-3 w-full h-10 placeholder:text-white placeholder:text-md"
-          placeholder="🔍Search..."
+          placeholder="🔍 Search..."
+          onChange={(e) => setSearchText(e.target.value)}
         />
       </div>
       <div>
-        {postList.map((eachPost) => (
+        {postList
+          .filter((post) => {
+            return searchText.toLowerCase() === ""
+              ? post
+              : post.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                  post.tweedle
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase()) ||
+                  post.tags.toLowerCase().includes(searchText.toLowerCase());
+          })
+          .map((eachPost) => (
+            <FeedCard
+              key={eachPost.id}
+              username={eachPost.name}
+              tweedle={eachPost.tweedle}
+              likes={eachPost.likes}
+              tags={eachPost.tags}
+            />
+          ))}
+        {/* {postList.map((eachPost) => (
           <FeedCard
             key={eachPost.id}
             username={eachPost.name}
             tweedle={eachPost.tweedle}
             likes={eachPost.likes}
+            tags={eachPost.tags}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );
