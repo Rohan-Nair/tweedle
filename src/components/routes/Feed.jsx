@@ -49,6 +49,7 @@ const Feed = () => {
             tweedle={eachPost.tweedle}
             likes={eachPost.likes}
             tags={eachPost.tags}
+            thisPostid={eachPost.id}
           />
         ))}
       </div>
