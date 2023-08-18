@@ -91,7 +91,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="px-5 border mb-10 md:mb-0 w-full h-[46rem] overflow-scroll">
+    <div className="px-5 mb-20 md:mb-0 w-full h-[46rem] overflow-scroll">
       <div className="bg-black rounded-sm w-full sticky -top-0">
         <h2 className="text-4xl ">Profile</h2>
         <form onSubmit={usernameChangeHandler}>

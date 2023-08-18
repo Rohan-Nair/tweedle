@@ -8,11 +8,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -38,15 +39,16 @@ const FeedCard = ({ username, tweedle, likes, tags, thisPostid }) => {
 
   const saveHandler = async () => {
     if (auth.currentUser) {
-      navigate("/login");
       try {
         await setDoc(
-          doc(
-            db,
-            `mySavedPosts${auth.currentUser?.uid}`,
-            `tweedle${thisPostid}`
-          ),
-          { id: thisPostid }
+          doc(db, `mySavedPosts${auth.currentUser?.uid}`, `${thisPostid}`),
+          {
+            id: thisPostid,
+            likes: likes,
+            name: username,
+            tweedle: tweedle,
+            tags: tags,
+          }
         );
         setIsSaved(true);
         toast("Saved", {
@@ -68,11 +70,7 @@ const FeedCard = ({ username, tweedle, likes, tags, thisPostid }) => {
     if (auth.currentUser) {
       try {
         await deleteDoc(
-          doc(
-            db,
-            `mySavedPosts${auth.currentUser?.uid}`,
-            `tweedle${thisPostid}`
-          )
+          doc(db, `mySavedPosts${auth.currentUser?.uid}`, `${thisPostid}`)
         );
         toast("Removed", {
           style: {
@@ -81,11 +79,33 @@ const FeedCard = ({ username, tweedle, likes, tags, thisPostid }) => {
             color: "#fff",
           },
         });
+        setIsSaved(false);
       } catch (err) {
         console.log(err);
       }
     }
   };
+  const checkingLikedOnLoading = async () => {
+    try {
+      const snap = await getDoc(
+        doc(db, `mySavedPosts${auth.currentUser?.uid}`, `${thisPostid}`)
+      );
+      if (snap.exists()) {
+        setIsSaved(true);
+      } else {
+        setIsSaved(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const run = async () => {
+      await checkingLikedOnLoading();
+    };
+    run().catch((err) => console.log(err));
+  }, []);
   return (
     <div className="bg-zinc-900 border rounded-md px-2 py-2 my-2">
       <p className="text-2xl">@{username}</p>
@@ -98,7 +118,7 @@ const FeedCard = ({ username, tweedle, likes, tags, thisPostid }) => {
         <>
           <h6 className="text-2xl">Tags</h6>
           <textarea
-            className="bg-black my-2 rounded-md w-full text-xl"
+            className="bg-black px-1 my-2 rounded-md w-full text-xl"
             value={tags}
             disabled
           ></textarea>

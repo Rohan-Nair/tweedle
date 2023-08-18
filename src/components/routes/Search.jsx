@@ -38,7 +38,7 @@ const Search = () => {
     );
   }
   return (
-    <div className="px-5 mb-10 md:mb-0 w-full h-[46rem] overflow-scroll">
+    <div className="px-5 mb-20 md:mb-0 w-full h-[46rem] overflow-scroll">
       <div className="w-full sticky -top-0 bg-black py-2">
         <h2 className="text-2xl py-2  rounded-sm ">Search</h2>
         <input
