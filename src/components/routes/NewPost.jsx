@@ -52,6 +52,12 @@ const NewPost = () => {
             color: "#fff",
           },
         });
+        setPost({
+          name: "",
+          tweedle: "",
+          tags: "",
+          likes: 0,
+        });
       } catch (err) {
         console.log(err);
       }
