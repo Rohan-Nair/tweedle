@@ -53,6 +53,7 @@ const Activity = () => {
             likes={eachPost.likes}
             tags={eachPost.tags}
             thisPostid={eachPost.id}
+            deleteIcon={false}
           />
         ))}
       </div>

@@ -119,6 +119,7 @@ const Profile = () => {
             tweedle={eachPost.tweedle}
             tags={eachPost.tags}
             likes={eachPost.likes}
+            deleteIcon={true}
           />
         ))}
       </div>

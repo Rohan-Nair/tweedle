@@ -58,7 +58,7 @@ const MobileTop = () => {
         {visible && (
           <button
             onClick={buttonText ? logoutHandler : navtoLogin}
-            className="px-4 py-2  bg-white text-black rounded-full"
+            className="px-4 py-2  bg-white text-black rounded-md"
           >
             {buttonText === false ? "Login" : "Logout"}
           </button>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import FeedCard from "../layouts/FeedCard";
 
@@ -51,6 +51,9 @@ const Feed = () => {
             likes={eachPost.likes}
             tags={eachPost.tags}
             thisPostid={eachPost.id}
+            deleteIcon={
+              eachPost.id.startsWith(auth.currentUser?.uid) ? true : false
+            }
           />
         ))}
       </div>

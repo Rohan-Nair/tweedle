@@ -17,7 +17,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const FeedCard = ({ username, tweedle, likes, tags, thisPostid }) => {
+const FeedCard = ({
+  username,
+  tweedle,
+  likes,
+  tags,
+  thisPostid,
+  deleteIcon,
+}) => {
   const [isSaved, setIsSaved] = useState(false);
   const navigate = useNavigate();
   // const likeHandler = async () => {
@@ -36,6 +43,24 @@ const FeedCard = ({ username, tweedle, likes, tags, thisPostid }) => {
   //     console.log(err);
   //   }
   // };
+
+  const deletePost = async (e) => {
+    e.preventDefault();
+    if (auth.currentUser) {
+      try {
+        await deleteDoc(doc(db, `posts`, thisPostid));
+        toast("Deleted", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   const saveHandler = async () => {
     if (auth.currentUser) {
@@ -132,12 +157,22 @@ const FeedCard = ({ username, tweedle, likes, tags, thisPostid }) => {
         <AiOutlineHeart />
         <p>{likes}</p>
       </div> */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center w-fit gap-1 text-2xl mb-1">
+          {isSaved ? (
+            <BsFillBookmarkCheckFill onClick={unSaveHandler} />
+          ) : (
+            <BsFillBookmarkHeartFill onClick={saveHandler} />
+          )}
+        </div>
 
-      <div className="flex items-center justify-center w-fit gap-1 text-2xl mb-1">
-        {isSaved ? (
-          <BsFillBookmarkCheckFill onClick={unSaveHandler} />
-        ) : (
-          <BsFillBookmarkHeartFill onClick={saveHandler} />
+        {deleteIcon && (
+          <button
+            className="bg-white text-black rounded-md px-3 py-1 text-lg"
+            onClick={deletePost}
+          >
+            Delete Post
+          </button>
         )}
       </div>
     </div>
