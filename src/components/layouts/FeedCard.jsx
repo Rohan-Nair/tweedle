@@ -3,6 +3,7 @@ import {
   BsFillBookmarkHeartFill,
   BsFillBookmarkCheckFill,
 } from "react-icons/bs";
+import { BiSolidCommentDetail, BiSolidCommentAdd } from "react-icons/bi";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { auth, db } from "../../firebase/firebase";
 import {
@@ -43,7 +44,32 @@ const FeedCard = ({
   deleteIcon,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
-  const [cmntDisplay, setCmntDisplay] = useState(false);
+
+  const [cmnts, setCmnts] = useState([]);
+  const gettingComments = async () => {
+    const commentsRef = collection(db, `posts/${thisPostid}/comments`);
+    try {
+      const thisPostCommentsFetching = [];
+      const snapshot = await getDocs(commentsRef);
+      snapshot.forEach((eachComment) => {
+        thisPostCommentsFetching.push({
+          ...eachComment.data(),
+          id: eachComment.id,
+        });
+      });
+      setCmnts(thisPostCommentsFetching);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const run = async () => {
+      await gettingComments();
+    };
+    run().catch((err) => console.log(err));
+  });
+
   const navigate = useNavigate();
   // const likeHandler = async () => {
   //   try {
@@ -63,11 +89,21 @@ const FeedCard = ({
   // };
 
   // chakra ui modal
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: createcmntModalisOpen,
+    onClose: createcmntModalonClose,
+    onOpen: createcmntModalonOpen,
+  } = useDisclosure();
+
+  const {
+    isOpen: viewCmntsModalisOpen,
+    onClose: viewCmntsModalonClose,
+    onOpen: viewCmntsModalonOpen,
+  } = useDisclosure();
+
   const [newCmnt, setNewCmnt] = useState({
     name: "",
     tweedle: "",
-    tags: "",
   });
   useEffect(() => {
     if (auth.currentUser) {
@@ -75,9 +111,29 @@ const FeedCard = ({
     }
   }, []);
 
-  const handleCreateNewCmnt = (e) => {
+  const handleCreateNewCmnt = async (e) => {
     e.preventDefault();
-    console.log("hello world");
+    if (auth.currentUser) {
+      try {
+        await setDoc(
+          doc(
+            db,
+            `posts/${thisPostid}/comments`,
+            `commentBy${auth.currentUser?.uid}${crypto.randomUUID()}`
+          ),
+          newCmnt
+        );
+        toast("commented", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   const deletePost = async (e) => {
@@ -227,10 +283,13 @@ const FeedCard = ({
           </>
         )} */}
 
-        <button className="text-2xl outline-none" onClick={onOpen}>
-          <FaRegCommentAlt />
+        <button
+          className="text-2xl outline-none"
+          onClick={createcmntModalonOpen}
+        >
+          <BiSolidCommentAdd />
         </button>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={createcmntModalisOpen} onClose={createcmntModalonClose}>
           <ModalOverlay />
           <ModalContent marginStart={"0.5rem"} marginEnd={"0.5rem"}>
             <ModalBody
@@ -265,12 +324,53 @@ const FeedCard = ({
                 />
                 <button
                   onClick={handleCreateNewCmnt}
-                  className="bg-white text-black rounded-md px-8 py-2 mt-2 text-lg mx-auto"
+                  className="bg-white text-black rounded-md px-6 py-2 mb-2 text-sm"
                   disabled={newCmnt.tweedle === "" ? true : false}
                 >
                   Comment
                 </button>
               </form>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+
+        <button
+          className="text-2xl outline-none"
+          onClick={viewCmntsModalonOpen}
+        >
+          <BiSolidCommentDetail />
+        </button>
+        <Modal isOpen={viewCmntsModalisOpen} onClose={viewCmntsModalonClose}>
+          <ModalOverlay />
+          <ModalContent marginStart={"0.5rem"} marginEnd={"0.5rem"}>
+            <ModalBody
+              bg="brand.maingray"
+              border="brand.white"
+              borderWidth={"1px"}
+              borderRadius={"md"}
+            >
+              <div>
+                <ModalCloseButton />
+                <p>Comments on @{username}'s tweelde</p>
+                <textarea
+                  className="bg-black px-1 my-2 rounded-md w-full text-xl"
+                  value={tweedle}
+                  disabled
+                ></textarea>
+                <div className="flex flex-col gap-2">
+                  {cmnts.map((eachComment) => (
+                    <div
+                      className="border border-white rounded-md px-2"
+                      key={eachComment.id}
+                    >
+                      <p>@{eachComment.name}</p>
+                      <textarea className="bg-black px-1 my-2 rounded-md w-full text-xl">
+                        {eachComment.tweedle}
+                      </textarea>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </ModalBody>
           </ModalContent>
         </Modal>
