@@ -1,8 +1,9 @@
-import { AiOutlineHeart } from "react-icons/ai";
+import { MdOutlineCancel } from "react-icons/md";
 import {
   BsFillBookmarkHeartFill,
   BsFillBookmarkCheckFill,
 } from "react-icons/bs";
+import { FaRegCommentAlt } from "react-icons/fa";
 import { auth, db } from "../../firebase/firebase";
 import {
   collection,
@@ -13,9 +14,25 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { onAuthStateChanged } from "firebase/auth";
 
 const FeedCard = ({
   username,
@@ -26,6 +43,7 @@ const FeedCard = ({
   deleteIcon,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
+  const [cmntDisplay, setCmntDisplay] = useState(false);
   const navigate = useNavigate();
   // const likeHandler = async () => {
   //   try {
@@ -43,6 +61,24 @@ const FeedCard = ({
   //     console.log(err);
   //   }
   // };
+
+  // chakra ui modal
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [newCmnt, setNewCmnt] = useState({
+    name: "",
+    tweedle: "",
+    tags: "",
+  });
+  useEffect(() => {
+    if (auth.currentUser) {
+      setNewCmnt({ ...newCmnt, name: auth?.currentUser?.displayName });
+    }
+  }, []);
+
+  const handleCreateNewCmnt = (e) => {
+    e.preventDefault();
+    console.log("hello world");
+  };
 
   const deletePost = async (e) => {
     e.preventDefault();
@@ -174,6 +210,70 @@ const FeedCard = ({
             Delete Post
           </button>
         )}
+
+        {/* <button className="text-2xl" onClick={() => setCmntDisplay(true)}>
+          <FaRegCommentAlt />
+        </button>
+        {cmntDisplay && (
+          <>
+          <div className="bg-zinc-900 opacity-90 w-full absolute top-0 right-0 left-0">
+          <button
+          className="text-2xl"
+          onClick={() => setCmntDisplay(false)}
+          >
+          <MdOutlineCancel />
+          </button>
+          </div>
+          </>
+        )} */}
+
+        <button className="text-2xl outline-none" onClick={onOpen}>
+          <FaRegCommentAlt />
+        </button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent marginStart={"0.5rem"} marginEnd={"0.5rem"}>
+            <ModalBody
+              bg="brand.maingray"
+              border="brand.white"
+              borderWidth={"1px"}
+              borderRadius={"md"}
+            >
+              <form>
+                <p className="">Reply to @{username}'s tweelde</p>
+                <textarea
+                  className="bg-black px-1 my-2 rounded-md w-full text-xl"
+                  value={tweedle}
+                  disabled
+                ></textarea>
+                <div className="flex items-center justify-start gap-3">
+                  <p className="text-white text-md mb-3">
+                    {auth.currentUser?.displayName
+                      ? `@${auth.currentUser.displayName}`
+                      : "@youdonthaveaname"}
+                  </p>
+                </div>
+                <textarea
+                  className="bg-black outline-none rounded-md px-2 py-1 mb-2 w-full h-32 placeholder:text-white placeholder:text-md"
+                  type="text"
+                  placeholder="Whats on your mind?"
+                  value={newCmnt.tweedle}
+                  onChange={(e) =>
+                    setNewCmnt({ ...newCmnt, tweedle: e.target.value })
+                  }
+                  required
+                />
+                <button
+                  onClick={handleCreateNewCmnt}
+                  className="bg-white text-black rounded-md px-8 py-2 mt-2 text-lg mx-auto"
+                  disabled={newCmnt.tweedle === "" ? true : false}
+                >
+                  Comment
+                </button>
+              </form>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </div>
     </div>
   );

@@ -11,29 +11,40 @@ import Login from "./components/routes/Login";
 import Signup from "./components/routes/Signup";
 import { AppContextProvider } from "./context/AppContext";
 import MobileTop from "./components/layouts/MobileTop";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 function App() {
+  const colors = {
+    brand: {
+      black: "#000",
+      white: "#fff",
+      maingray: "#18181b",
+    },
+  };
+  const theme = extendTheme({ colors });
   return (
-    <AppContextProvider>
-      <Router>
-        <div className="flex flex-col md:flex-row">
-          <div>
-            <MobileTop />
-            <LeftAside />
+    <ChakraProvider theme={theme}>
+      <AppContextProvider>
+        <Router>
+          <div className="flex flex-col md:flex-row">
+            <div>
+              <MobileTop />
+              <LeftAside />
+            </div>
+            <Routes>
+              <Route path="/" element={<Feed />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/activity" element={<Activity />} />
+              <Route path="/new-post" element={<NewPost />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </div>
-          <Routes>
-            <Route path="/" element={<Feed />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/activity" element={<Activity />} />
-            <Route path="/new-post" element={<NewPost />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </Router>
-    </AppContextProvider>
+        </Router>
+      </AppContextProvider>
+    </ChakraProvider>
   );
 }
 
