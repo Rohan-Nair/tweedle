@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { sidebarLinks } from "../../../constants/leftsideBarlinks";
+import sidebarLinks from "../../../constants/leftsideBarlinks";
 import logo from "../../assets/images/logo.png";
 import { AppContext } from "../../context/AppContext";
 import { auth } from "../../firebase/firebase";
