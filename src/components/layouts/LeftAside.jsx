@@ -13,6 +13,33 @@ const LeftAside = () => {
   const { visible, setVisible, buttonText, setButtonText } =
     useContext(AppContext);
   // const [buttonText, setButtonText] = useState(false);
+  const sidebarLinks2 = [
+    {
+      imgURL: "../../../src/assets/svgs/home.svg",
+      route: "/",
+      label: "Home",
+    },
+    {
+      imgURL: "../../../src/assets/svgs/search.svg",
+      route: "/search",
+      label: "Search",
+    },
+    {
+      imgURL: "../../../src/assets/svgs/heart.svg",
+      route: "/activity",
+      label: "Activity",
+    },
+    {
+      imgURL: "../../../src/assets/svgs/create.svg",
+      route: "/new-post",
+      label: "New Post",
+    },
+    {
+      imgURL: "../../../src/assets/svgs/user.svg",
+      route: "/profile",
+      label: "Profile",
+    },
+  ];
 
   const logoutHandler = async () => {
     try {
@@ -84,7 +111,7 @@ const LeftAside = () => {
         </section>
         <section className="md:hidden fixed bottom-0 border-t bg-black">
           <div className="px-3 flex w-screen justify-evenly">
-            {sidebarLinks.map((link) => {
+            {sidebarLinks2.map((link) => {
               return (
                 <div
                   onClick={() => {
