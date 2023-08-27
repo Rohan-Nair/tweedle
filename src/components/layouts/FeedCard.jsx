@@ -130,6 +130,10 @@ const FeedCard = ({
             color: "#fff",
           },
         });
+        setNewCmnt({
+          name: "",
+          tweedle: "",
+        });
       } catch (err) {
         console.log(err);
       }
@@ -250,22 +254,13 @@ const FeedCard = ({
         <p>{likes}</p>
       </div> */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center w-fit gap-1 text-2xl mb-1">
+        <button className="flex items-center justify-center w-fit gap-1 text-2xl mb-1">
           {isSaved ? (
             <BsFillBookmarkCheckFill onClick={unSaveHandler} />
           ) : (
             <BsFillBookmarkHeartFill onClick={saveHandler} />
           )}
-        </div>
-
-        {deleteIcon && (
-          <button
-            className="bg-white text-black rounded-md px-3 py-1 text-lg"
-            onClick={deletePost}
-          >
-            Delete Post
-          </button>
-        )}
+        </button>
 
         {/* <button className="text-2xl" onClick={() => setCmntDisplay(true)}>
           <FaRegCommentAlt />
@@ -299,16 +294,18 @@ const FeedCard = ({
               borderRadius={"md"}
             >
               <form>
-                <p className="">Reply to @{username}'s tweelde</p>
+                <p className="text-xl underline">
+                  Reply to @{username}'s tweedle
+                </p>
                 <textarea
                   className="bg-black px-1 my-2 rounded-md w-full text-xl"
                   value={tweedle}
                   disabled
                 ></textarea>
                 <div className="flex items-center justify-start gap-3">
-                  <p className="text-white text-md mb-3">
+                  <p className="text-white text-md mb-3 underline">
                     {auth.currentUser?.displayName
-                      ? `@${auth.currentUser.displayName}`
+                      ? `Reply as @${auth.currentUser.displayName}`
                       : "@youdonthaveaname"}
                   </p>
                 </div>
@@ -321,10 +318,10 @@ const FeedCard = ({
                     setNewCmnt({ ...newCmnt, tweedle: e.target.value })
                   }
                   required
-                />
+                ></textarea>
                 <button
                   onClick={handleCreateNewCmnt}
-                  className="bg-white text-black rounded-md px-6 py-2 mb-2 text-sm"
+                  className="bg-white text-black rounded-md px-8 py-2 mt-2 text-lg mx-auto"
                   disabled={newCmnt.tweedle === "" ? true : false}
                 >
                   Comment
@@ -351,22 +348,26 @@ const FeedCard = ({
             >
               <div>
                 <ModalCloseButton />
-                <p>Comments on @{username}'s tweelde</p>
+                <p className="text-xl underline">
+                  Comments on @{username}'s tweedle
+                </p>
                 <textarea
                   className="bg-black px-1 my-2 rounded-md w-full text-xl"
                   value={tweedle}
                   disabled
                 ></textarea>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mt-1">
                   {cmnts.map((eachComment) => (
                     <div
-                      className="border border-white rounded-md px-2"
+                      className="border border-white rounded-md px-2 pt-2 mt-2"
                       key={eachComment.id}
                     >
                       <p>@{eachComment.name}</p>
-                      <textarea className="bg-black px-1 my-2 rounded-md w-full text-xl">
-                        {eachComment.tweedle}
-                      </textarea>
+                      <textarea
+                        className="bg-black px-1 my-2 rounded-md w-full text-xl"
+                        value={eachComment.tweedle}
+                        readOnly
+                      ></textarea>
                     </div>
                   ))}
                 </div>
@@ -374,6 +375,14 @@ const FeedCard = ({
             </ModalBody>
           </ModalContent>
         </Modal>
+        {deleteIcon && (
+          <button
+            className="bg-white text-black rounded-md px-3 py-1 text-lg"
+            onClick={deletePost}
+          >
+            Delete Post
+          </button>
+        )}
       </div>
     </div>
   );
