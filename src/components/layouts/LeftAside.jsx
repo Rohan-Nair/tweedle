@@ -116,7 +116,47 @@ const LeftAside = () => {
         </section>
         <section className="md:hidden fixed bottom-0 border-t bg-black">
           <div className="px-3 flex w-screen justify-evenly">
-            {sidebarLinks2.map((link) => {
+            <div
+              onClick={() => {
+                navigate("/");
+              }}
+              className="flex p-4 cursor-pointer rounded-full items-center gap-3 "
+            >
+              <img src={home} />
+            </div>
+            <div
+              onClick={() => {
+                navigate("/search");
+              }}
+              className="flex p-4 cursor-pointer rounded-full items-center gap-3 "
+            >
+              <img src={search} />
+            </div>
+            <div
+              onClick={() => {
+                navigate("/activity");
+              }}
+              className="flex p-4 cursor-pointer rounded-full items-center gap-3 "
+            >
+              <img src={activity} />
+            </div>
+            <div
+              onClick={() => {
+                navigate("/new-post");
+              }}
+              className="flex p-4 cursor-pointer rounded-full items-center gap-3 "
+            >
+              <img src={newpost} />
+            </div>
+            <div
+              onClick={() => {
+                navigate("/profile");
+              }}
+              className="flex p-4 cursor-pointer rounded-full items-center gap-3 "
+            >
+              <img src={user} />
+            </div>
+            {/* {sidebarLinks2.map((link) => {
               return (
                 <div
                   onClick={() => {
@@ -128,7 +168,7 @@ const LeftAside = () => {
                   <img src={link.imgURL} />
                 </div>
               );
-            })}
+            })} */}
           </div>
         </section>
       </div>
