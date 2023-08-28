@@ -92,7 +92,52 @@ const LeftAside = () => {
             <h2 className="text-3xl">Tweedle</h2>
           </div>
           <div className="px-3 text-xl">
-            {sidebarLinks.map((link) => {
+            <div
+              onClick={() => {
+                navigate("/");
+              }}
+              className="flex p-4 cursor-pointer rounded-full w-40 items-center gap-3 hover:bg-zinc-800 "
+            >
+              <img src={home} />
+              <p className="max-md:hidden">Home</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate("/search");
+              }}
+              className="flex p-4 cursor-pointer rounded-full w-40 items-center gap-3 hover:bg-zinc-800 "
+            >
+              <img src={search} />
+              <p className="max-md:hidden">Search</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate("/activity");
+              }}
+              className="flex p-4 cursor-pointer rounded-full w-40 items-center gap-3 hover:bg-zinc-800 "
+            >
+              <img src={activity} />
+              <p className="max-md:hidden">Activity</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate("/new-post");
+              }}
+              className="flex p-4 cursor-pointer rounded-full w-40 items-center gap-3 hover:bg-zinc-800 "
+            >
+              <img src={newpost} />
+              <p className="max-md:hidden">New Post</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate("/profile");
+              }}
+              className="flex p-4 cursor-pointer rounded-full w-40 items-center gap-3 hover:bg-zinc-800 "
+            >
+              <img src={user} />
+              <p className="max-md:hidden">Profile</p>
+            </div>
+            {/* {sidebarLinks.map((link) => {
               return (
                 <div
                   onClick={() => {
@@ -105,7 +150,7 @@ const LeftAside = () => {
                   <p className="max-md:hidden">{link.label}</p>
                 </div>
               );
-            })}
+            })} */}
             <button
               onClick={buttonText ? logoutHandler : navtoLogin}
               className="p-3 mt-10 w-full bg-white text-black rounded-full"
