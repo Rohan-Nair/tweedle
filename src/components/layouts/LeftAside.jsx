@@ -6,6 +6,11 @@ import { AppContext } from "../../context/AppContext";
 import { auth } from "../../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { toast } from "react-hot-toast";
+import home from "../../assets/svgs/home.svg";
+import search from "../../assets/svgs/search.svg";
+import activity from "../../assets/svgs/heart.svg";
+import newpost from "../../assets/svgs/create.svg";
+import user from "../../assets/svgs/user.svg";
 
 const LeftAside = () => {
   const location = useLocation();

@@ -15,14 +15,25 @@ import { getFirestore } from "firebase/firestore";
 // };
 
 // new db tweedles
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAPmZXsVXzrX6z-0GZ8dn4xIOLBScduICc",
+//   authDomain: "tweedles-1aab7.firebaseapp.com",
+//   projectId: "tweedles-1aab7",
+//   storageBucket: "tweedles-1aab7.appspot.com",
+//   messagingSenderId: "860048293546",
+//   appId: "1:860048293546:web:c059e7ffe8be4d926e9ad3",
+//   measurementId: "G-TM49G94GSG",
+// };
+
+// new db tweedles 004acc
 const firebaseConfig = {
-  apiKey: "AIzaSyAPmZXsVXzrX6z-0GZ8dn4xIOLBScduICc",
-  authDomain: "tweedles-1aab7.firebaseapp.com",
-  projectId: "tweedles-1aab7",
-  storageBucket: "tweedles-1aab7.appspot.com",
-  messagingSenderId: "860048293546",
-  appId: "1:860048293546:web:c059e7ffe8be4d926e9ad3",
-  measurementId: "G-TM49G94GSG",
+  apiKey: "AIzaSyB4SHhCvUIoGny43qa09URPB54i7EmF8eg",
+  authDomain: "tweedle-auth.firebaseapp.com",
+  projectId: "tweedle-auth",
+  storageBucket: "tweedle-auth.appspot.com",
+  messagingSenderId: "503799543820",
+  appId: "1:503799543820:web:312d24e349d48ccfab5629",
+  measurementId: "G-WP7DC8PENE",
 };
 
 // Initialize Firebase
