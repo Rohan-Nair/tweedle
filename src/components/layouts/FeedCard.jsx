@@ -68,7 +68,7 @@ const FeedCard = ({
       await gettingComments();
     };
     run().catch((err) => console.log(err));
-  });
+  }, []);
 
   const navigate = useNavigate();
   // const likeHandler = async () => {
