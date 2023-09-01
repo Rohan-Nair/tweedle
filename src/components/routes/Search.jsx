@@ -68,15 +68,6 @@ const Search = () => {
               tags={eachPost.tags}
             />
           ))}
-        {/* {postList.map((eachPost) => (
-          <FeedCard
-            key={eachPost.id}
-            username={eachPost.name}
-            tweedle={eachPost.tweedle}
-            likes={eachPost.likes}
-            tags={eachPost.tags}
-          />
-        ))} */}
       </div>
     </div>
   );

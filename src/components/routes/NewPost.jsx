@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { auth, db } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 const NewPost = () => {
@@ -26,7 +26,6 @@ const NewPost = () => {
 
   const handleCreateNewPost = async (e) => {
     e.preventDefault();
-    // currently fixing
 
     if (post.name === null) {
       toast("Create a Username first");
@@ -34,7 +33,6 @@ const NewPost = () => {
     } else {
       setPost({ ...post, name: "youdonthaveaname" });
       try {
-        // const postCollection = collection(db, "posts");
         await setDoc(
           doc(
             db,

@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { AppContext } from "../../context/AppContext";
 
 const Login = () => {
-  const { visible, setVisible } = useContext(AppContext);
+  const { setVisible } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [formEntries, setFormEntries] = useState({

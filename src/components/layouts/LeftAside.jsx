@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import sidebarLinks from "../../../constants/leftsideBarlinks";
 import logo from "../../assets/images/logo.png";
 import { AppContext } from "../../context/AppContext";
 import { auth } from "../../firebase/firebase";
@@ -17,35 +16,6 @@ const LeftAside = () => {
   const navigate = useNavigate();
   const { visible, setVisible, buttonText, setButtonText } =
     useContext(AppContext);
-  // const [buttonText, setButtonText] = useState(false);
-  const sidebarLinks2 = [
-    {
-      imgURL: "../../../src/assets/svgs/home.svg",
-      route: "/",
-      label: "Home",
-    },
-    {
-      imgURL: "../../../src/assets/svgs/search.svg",
-      route: "/search",
-      label: "Search",
-    },
-    {
-      imgURL: "../../../src/assets/svgs/heart.svg",
-      route: "/activity",
-      label: "Activity",
-    },
-    {
-      imgURL: "../../../src/assets/svgs/create.svg",
-      route: "/new-post",
-      label: "New Post",
-    },
-    {
-      imgURL: "../../../src/assets/svgs/user.svg",
-      route: "/profile",
-      label: "Profile",
-    },
-  ];
-
   const logoutHandler = async () => {
     try {
       await signOut(auth);
@@ -137,20 +107,6 @@ const LeftAside = () => {
               <img src={user} />
               <p className="max-md:hidden">Profile</p>
             </div>
-            {/* {sidebarLinks.map((link) => {
-              return (
-                <div
-                  onClick={() => {
-                    navigate(link.route);
-                  }}
-                  key={link.label}
-                  className="flex p-4 cursor-pointer rounded-full w-40 items-center gap-3 hover:bg-zinc-800 "
-                >
-                  <img src={link.imgURL} />
-                  <p className="max-md:hidden">{link.label}</p>
-                </div>
-              );
-            })} */}
             <button
               onClick={buttonText ? logoutHandler : navtoLogin}
               className="p-3 mt-10 w-full bg-white text-black rounded-full"
@@ -201,19 +157,6 @@ const LeftAside = () => {
             >
               <img src={user} />
             </div>
-            {/* {sidebarLinks2.map((link) => {
-              return (
-                <div
-                  onClick={() => {
-                    navigate(link.route);
-                  }}
-                  key={link.label}
-                  className="flex p-4 cursor-pointer rounded-full items-center gap-3 "
-                >
-                  <img src={link.imgURL} />
-                </div>
-              );
-            })} */}
           </div>
         </section>
       </div>

@@ -1,10 +1,8 @@
-import { MdOutlineCancel } from "react-icons/md";
 import {
   BsFillBookmarkHeartFill,
   BsFillBookmarkCheckFill,
 } from "react-icons/bs";
 import { BiSolidCommentDetail, BiSolidCommentAdd } from "react-icons/bi";
-import { FaRegCommentAlt } from "react-icons/fa";
 import { auth, db } from "../../firebase/firebase";
 import {
   collection,
@@ -13,7 +11,6 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -22,18 +19,10 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { onAuthStateChanged } from "firebase/auth";
 
 const FeedCard = ({
   username,

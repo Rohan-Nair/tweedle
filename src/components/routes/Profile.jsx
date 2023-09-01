@@ -3,13 +3,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { auth, db } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  collection,
-  doc,
-  getDocs,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import FeedCard from "../layouts/FeedCard";
 
 const Profile = () => {
@@ -82,6 +76,7 @@ const Profile = () => {
       }
     });
   }, []);
+
   if (loading) {
     return (
       <div className="h-96 w-full flex justify-center items-center">
