@@ -102,7 +102,6 @@ const FeedCard = ({
 
   const handleCreateNewCmnt = async (e) => {
     e.preventDefault();
-    console.log(auth.currentUser.displayName);
     if (auth.currentUser) {
       if (!auth.currentUser.displayName) {
         navigate("/profile");
@@ -194,7 +193,7 @@ const FeedCard = ({
         await deleteDoc(
           doc(db, `mySavedPosts${auth.currentUser?.uid}`, `${thisPostid}`)
         );
-        toast("Removed", {
+        toast("🌊Removed", {
           style: {
             borderRadius: "10px",
             background: "#333",
@@ -219,6 +218,28 @@ const FeedCard = ({
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const deleteComment = async (e, thisComment) => {
+    e.preventDefault();
+    try {
+      await deleteDoc(
+        doc(db, `posts/${thisPostid}/comments`, `${thisComment}`)
+      );
+      toast("🧺Deleted", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      const run = async () => {
+        await gettingComments();
+      };
+      run().catch((err) => console.log(err));
+    } catch (e) {
+      console.error(e.message);
     }
   };
 
@@ -369,6 +390,16 @@ const FeedCard = ({
                         value={eachComment.tweedle}
                         readOnly
                       ></textarea>
+                      {eachComment.id.startsWith(
+                        "commentBy" + auth.currentUser.uid
+                      ) ? (
+                        <button
+                          onClick={(e) => deleteComment(e, eachComment.id)}
+                          className="bg-white text-black rounded-md px-3 py-1 mb-3 text-lg"
+                        >
+                          Delete Comment
+                        </button>
+                      ) : null}
                     </div>
                   ))}
                 </div>
