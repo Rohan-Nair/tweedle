@@ -149,7 +149,7 @@ const FeedCard = ({
     if (auth.currentUser) {
       try {
         await deleteDoc(doc(db, `posts`, thisPostid));
-        toast("Deleted", {
+        toast("I'll be gone👋", {
           style: {
             borderRadius: "10px",
             background: "#333",
@@ -254,7 +254,7 @@ const FeedCard = ({
     run().catch((err) => console.log(err));
   }, []);
   return (
-    <div className="bg-zinc-900 border rounded-md px-2 py-2 my-2">
+    <div className="bg-zinc-900 border rounded-md px-2 py-2 my-2 hover:shadow-lg hover:shadow-white transition-all">
       <p className="text-2xl">@{username}</p>
       <textarea
         className="bg-black px-1 my-2 rounded-md w-full text-xl"

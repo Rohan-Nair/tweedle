@@ -42,7 +42,7 @@ const Feed = () => {
       <h2 className="text-2xl py-2 bg-black rounded-sm w-full sticky -top-0">
         Home
       </h2>
-      <div>
+      <div className="flex flex-col gap-3">
         {postList.map((eachPost) => (
           <FeedCard
             key={eachPost.id}
