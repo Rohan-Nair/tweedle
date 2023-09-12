@@ -134,6 +134,10 @@ const FeedCard = ({
           name: "",
           tweedle: "",
         });
+        const run = async () => {
+          await gettingComments();
+        };
+        run().catch((err) => console.log(err));
       } catch (err) {
         console.log(err);
       }
@@ -327,7 +331,7 @@ const FeedCard = ({
                 <div className="flex items-center justify-start gap-3">
                   <p className="text-white text-md mb-3 underline">
                     {auth.currentUser?.displayName
-                      ? `Reply as @${auth.currentUser.displayName}`
+                      ? `Reply as @${auth.currentUser?.displayName}`
                       : "@youdonthaveaname"}
                   </p>
                 </div>
@@ -391,7 +395,7 @@ const FeedCard = ({
                         readOnly
                       ></textarea>
                       {eachComment.id.startsWith(
-                        "commentBy" + auth.currentUser.uid
+                        "commentBy" + auth.currentUser?.uid
                       ) ? (
                         <button
                           onClick={(e) => deleteComment(e, eachComment.id)}
