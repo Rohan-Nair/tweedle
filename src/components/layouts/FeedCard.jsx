@@ -102,7 +102,19 @@ const FeedCard = ({
 
   const handleCreateNewCmnt = async (e) => {
     e.preventDefault();
+    console.log(auth.currentUser.displayName);
     if (auth.currentUser) {
+      if (!auth.currentUser.displayName) {
+        navigate("/profile");
+        toast("Pick a username first🤓", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+        return;
+      }
       try {
         await setDoc(
           doc(

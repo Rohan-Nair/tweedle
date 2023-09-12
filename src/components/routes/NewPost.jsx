@@ -26,7 +26,6 @@ const NewPost = () => {
 
   const handleCreateNewPost = async (e) => {
     e.preventDefault();
-
     if (post.name === null) {
       toast("Create a Username first");
       navigate("/profile");
