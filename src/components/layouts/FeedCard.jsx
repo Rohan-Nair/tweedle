@@ -224,7 +224,7 @@ const FeedCard = ({
         value={tweedle}
         disabled
       ></textarea>
-      {tags !== "" && (
+      {tags.trim() !== "" && (
         <>
           <h6 className="text-2xl">Tags</h6>
           <textarea
